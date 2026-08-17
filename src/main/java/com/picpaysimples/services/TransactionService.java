@@ -25,9 +25,12 @@ public class TransactionService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public void createTransaction(TransactionDTO transaction) throws Exception {
-        User sender = this.userService.findUserById(transaction.senderID());
-        User receiver = this.userService.findUserById(transaction.receiverID());
+    @Autowired
+    private NotificationService notificationService;
+
+    public Transaction createTransaction(TransactionDTO transaction) throws Exception {
+        User sender = this.userService.findUserById(transaction.senderId());
+        User receiver = this.userService.findUserById(transaction.receiverId());
 
         userService.validateTransaction(sender, transaction.value());
         boolean isAuthorized = this.authorizeTransaction(sender, transaction.value());
@@ -46,15 +49,25 @@ public class TransactionService {
         this.userService.saveUser(sender);
         this.userService.saveUser(receiver);
 
+        this.notificationService.sendNotification(sender, "Transação realizada com sucesso.");
+        this.notificationService.sendNotification(receiver, "Transação recebida com sucesso.");
+
+        return newTransaction;
     }
 
 
     public boolean authorizeTransaction(User sender, BigDecimal value) {
+        // Mock temporário enquanto o serviço externo está indisponível.
+        return true;
+        /*
         ResponseEntity<Map> authorizationResponse = restTemplate.getForEntity("https://util.devi.tools/api/v2/authorize", Map.class);
 
         if (authorizationResponse.getStatusCode() == HttpStatus.OK) {
             String message = (String) authorizationResponse.getBody().get("message");
             return "Autorizado".equalsIgnoreCase(message);
         } else return false;
+
+         */
     }
+
 }
