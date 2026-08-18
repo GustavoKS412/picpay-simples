@@ -87,7 +87,7 @@ Usa H2 em memória, então não precisa configurar nada pra rodar local.
 ## Roadmap
 
 - [ ] Testes unitários e de integração
-- [ ] Tratamento de erros global
+- [x] Tratamento de erros global
 - [ ] Documentação da API
 - [ ] Dockerizar a aplicação
 - [ ] Trocar H2 por um banco persistente (PostgreSQL/MySQL)
