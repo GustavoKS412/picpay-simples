@@ -78,16 +78,3 @@ cd picpay-simples
 
 A aplicação sobe em `http://localhost:8080`.
 
-## Banco de dados
-
-Usa H2 em memória, então não precisa configurar nada pra rodar local.
-
-*Os dados somem toda vez que a aplicação reinicia.*
-
-## Roadmap
-
-- [ ] Testes unitários e de integração
-- [x] Tratamento de erros global
-- [ ] Documentação da API
-- [ ] Dockerizar a aplicação
-- [ ] Trocar H2 por um banco persistente (PostgreSQL/MySQL)
