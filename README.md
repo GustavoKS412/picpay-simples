@@ -1,74 +1,77 @@
 # PicPay Simples
 
-API REST em Java + Spring Boot que simula uma plataforma de pagamentos: é possível cadastrar usuários (comuns e lojistas) e transferir dinheiro entre eles.
+[![English](https://img.shields.io/badge/lang-English-blue)](README.md)
+[![Português](https://img.shields.io/badge/lang-Portugu%C3%AAs-green)](README.pt-BR.md)
 
-Esse projeto foi feito como resolução de um desafio técnico de backend, tentando manter as camadas bem separadas (controller, service, repository, domain, dtos) e seguir boas práticas no geral.
+REST API in Java + Spring Boot that simulates a payment platform: it's possible to register users (common and merchant) and transfer money between them.
 
-## Sobre o projeto
+This project was made as the resolution of a backend technical challenge, trying to keep the layers well separated (controller, service, repository, domain, dtos) and follow good practices in general.
 
-Existem dois tipos de usuário:
+## About the project
 
-- Usuário comum: pode enviar e receber dinheiro.
-- Lojista: só recebe, não pode fazer transferências.
+There are two types of user:
 
-Antes de fechar uma transferência, o sistema chama um serviço autorizador externo (mock). Depois que a transação é concluída, é disparada uma notificação pros usuários envolvidos, também via mock. Essa notificação foi desacoplada de propósito, porque se ela falhar isso não pode derrubar a transação.
+- Common user: can send and receive money.
+- Merchant: only receives, can't make transfers.
 
-## Tecnologias
+Before closing a transfer, the system calls an external authorizer service (mock). After the transaction is completed, a notification is fired to the users involved, also via mock. This notification was decoupled on purpose, because if it fails that can't bring down the transaction.
+
+## Tech stack
 
 - Java
 - Spring Boot
 - Spring Data JPA
-- H2 Database (em memória)
+- H2 Database (in memory)
 - Maven
 
-## Regras de negócio
-- Nome completo, CPF, e-mail e senha são obrigatórios para os dois tipos de usuário. CPF/CNPJ e e-mail precisam ser únicos no sistema. Não pode existir dois cadastros com o mesmo CPF ou e-mail.
-- Usuários podem transferir dinheiro para lojistas e para outros usuários.
-- Lojistas só recebem, nunca enviam dinheiro.
-- Antes de transferir, o sistema precisa validar se o usuário tem saldo suficiente.
-- Antes de finalizar a transferência, é preciso consultar um serviço autorizador externo (mock `GET https://util.devi.tools/api/v2/authorize`).
-- A transferência é uma transação: se algo der errado no meio do caminho, tudo é revertido e o dinheiro volta pra carteira de quem enviou.
-- Quando alguém recebe um pagamento, precisa ser notificado (email/sms) por um serviço de terceiro (mock `POST https://util.devi.tools/api/v1/notify`). Esse serviço pode estar fora do ar, então isso não pode travar a transação.
-- A API precisa ser RESTful.
+## Business rules
+- Full name, CPF, email and password are required for both user types. CPF/CNPJ and email need to be unique in the system. There can't be two registrations with the same CPF or email.
+- Users can transfer money to merchants and to other users.
+- Merchants only receive, never send money.
+- Before transferring, the system needs to validate whether the user has sufficient balance.
+- Before finalizing the transfer, an external authorizer service needs to be consulted (mock `GET https://util.devi.tools/api/v2/authorize`).
+- The transfer is a transaction: if something goes wrong along the way, everything is reverted and the money returns to the sender's wallet.
+- When someone receives a payment, they need to be notified (email/sms) by a third-party service (mock `POST https://util.devi.tools/api/v1/notify`). This service might be down, so that can't block the transaction.
+- The API needs to be RESTful.
 
 ## Endpoints
 
-Cadastrar usuário:
+Register user:
 ```
 POST /users
 Content-Type: application/json
 
 {
-	"firstName": "exemplo",
-	"lastName": "exemplo",
-	"document": "123456789",
-	"password": "exemplo",
-	"email": "exemplo@exemplo.com",
-	"userType": "COMMON",
-	"balance": 2200
+    "firstName": "exemplo",
+    "lastName": "exemplo",
+    "document": "123456789",
+    "password": "exemplo",
+    "email": "exemplo@exemplo.com",
+    "userType": "COMMON",
+    "balance": 2200
 }
 ```
 
-Criar transação:
+Create transaction:
 ```
 POST /transactions
 Content-Type: application/json
 
 {
-	"senderId": 1,
-	"receiverId": 2,
-	"value": 100
+    "senderId": 1,
+    "receiverId": 2,
+    "value": 100
 }
 ```
 
-## Como executar o projeto
+## How to run the project
 
-### Pré-requisitos
+### Prerequisites
 
-- Java 17+ (confira a versão no pom.xml)
-- Maven não é obrigatório instalar globalmente, o projeto já vem com o wrapper (mvnw / mvnw.cmd)
+- Java 17+ (check the version in pom.xml)
+- Maven doesn't need to be installed globally, the project already comes with the wrapper (mvnw / mvnw.cmd)
 
-### Passos
+### Steps
 
 ```bash
 git clone https://github.com/GustavoKS412/picpay-simples.git
@@ -76,5 +79,4 @@ cd picpay-simples
 ./mvnw spring-boot:run
 ```
 
-A aplicação sobe em `http://localhost:8080`.
-
+The application runs on `http://localhost:8080`.
