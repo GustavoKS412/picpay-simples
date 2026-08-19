@@ -31,3 +31,17 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Environment / secrets (in case you add a real DB later) ###
+.env
+.env.local
+application-local.properties
+application-local.yml
+application-secrets.properties
+
+### Logs ###
+*.log
+
+### OS ###
+.DS_Store
+Thumbs.db
