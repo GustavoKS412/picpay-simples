@@ -59,18 +59,6 @@ public class TransactionService {
     }
 
 
-    public boolean authorizeTransaction(User sender, BigDecimal value) {
-        // Mock temporário enquanto o serviço externo está indisponível.
-        return true;
-        /*
-        ResponseEntity<Map> authorizationResponse = restTemplate.getForEntity("https://util.devi.tools/api/v2/authorize", Map.class);
 
-        if (authorizationResponse.getStatusCode() == HttpStatus.OK) {
-            String message = (String) authorizationResponse.getBody().get("message");
-            return "Autorizado".equalsIgnoreCase(message);
-        } else return false;
-
-         */
-    }
 
 }
